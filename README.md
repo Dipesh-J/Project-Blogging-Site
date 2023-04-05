@@ -1,10 +1,5 @@
 # Project-Blogging-Site
 
-Project Blogging Site Requirement
-
-# Phase I
-===========
-
 # Models===>
 
 ## Author Model===>
