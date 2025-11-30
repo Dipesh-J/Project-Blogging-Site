@@ -1,182 +1,205 @@
 # Project-Blogging-Site
 
-# Phase I
+A full-stack blogging platform built with React (frontend) and Express.js (backend).
 
-## Models===>
+## 🚀 Features
 
-### Author Model===>
-```
-{ 
-    fname: {
-      mandatory
-    }, 
-    lname: {
-      mandatory
-    }, 
-    title: {
-      mandatory, 
-      enum[Mr, Mrs, Miss]
-    }, 
-    email: {
-        mandatory, valid email, unique
-      }, 
-    password: {
-        mandatory
-      } 
-}
-```
+- **User Authentication**: Register and login with JWT-based authentication
+- **Blog Management**: Create, read, update, and delete blog posts
+- **Categories & Tags**: Organize blogs with categories, tags, and subcategories
+- **Publishing System**: Save drafts or publish blogs immediately
+- **Responsive Design**: Modern UI built with Tailwind CSS v4
+- **Dark Theme**: Beautiful dark-themed design with custom color palette
 
-## Blogs Model===>
+## 📁 Project Structure
+
 ```
-{ 
-  title: {
-    mandatory
-  }, 
-  body: {
-    mandatory
-  }, 
-  authorId: {
-    mandatory, refs to author model
-  }, 
-  tags: {
-    array of string
-  }, 
-  category: {
-    string, mandatory
-  }, 
-  subcategory: {
-    array of string, examples[technology-[web development, mobile development, AI, ML etc]] 
-  }, 
-  createdAt, updatedAt, deletedAt: {
-    when the document is deleted
-  }, 
-  isDeleted: {
-    boolean, default: false
-  }, 
-  publishedAt: {
-    when the blog is published
-  }, 
-  isPublished: {
-  boolean, default: false
-  }
-}
+/
+├── backend/          # Express.js API
+│   ├── src/
+│   │   ├── controller/   # Route handlers
+│   │   ├── middleware/   # Auth middleware
+│   │   ├── models/       # Mongoose models
+│   │   ├── route/        # API routes
+│   │   └── validate/     # Input validation
+│   ├── index.js
+│   └── package.json
+├── frontend/         # React + Vite application
+│   ├── src/
+│   │   ├── components/   # Reusable UI components
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── pages/        # Page components
+│   │   ├── services/     # API client
+│   │   ├── store/        # Zustand state management
+│   │   └── theme/        # Design tokens
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
+├── package.json      # Root package with workspaces
+└── README.md
 ```
 
-## Author APIs /authors===>
-Create an author - atleast 5 authors
-Create a author document from request body. Endpoint: BASE_URL/authors
+## 🛠️ Tech Stack
 
-## POST /blogs===>
-Create a blog document from request body. Get authorId in request body only.
+### Frontend
+- React 19 + Vite 7
+- React Router v7
+- TanStack Query (React Query)
+- Zustand for state management
+- Tailwind CSS v4
+- Axios for API calls
+- React Hot Toast for notifications
+- React Icons
 
-Make sure the authorId is a valid authorId by checking the author exist in the authors collection.
+### Backend
+- Express.js
+- MongoDB with Mongoose
+- JWT for authentication
+- CORS enabled
 
-Return HTTP status 201 on a succesful blog creation. Also return the blog document. The response should be a JSON object like this
+## 🏃‍♂️ Getting Started
 
-Create atleast 5 blogs for each author
+### Prerequisites
+- Node.js 18+
+- npm 9+
+- MongoDB database (or MongoDB Atlas connection string)
 
-Return HTTP status 400 for an invalid request with a response body like this
+### Installation
 
-## GET /blogs===>
-Returns all blogs in the collection that aren't deleted and are published
-Return the HTTP status 200 if any documents are found. The response structure should be like this
-If no documents are found then return an HTTP status 404 with a response like this
-Filter blogs list by applying filters. Query param can have any combination of below filters.
-By author Id
-By category
-List of blogs that have a specific tag
-List of blogs that have a specific subcategory example of a query url: blogs?filtername=filtervalue&f2=fv2
-
-## PUT /blogs/:blogId===>
-Updates a blog by changing the its title, body, adding tags, adding a subcategory. (Assuming tag and subcategory received in body is need to be added)
-Updates a blog by changing its publish status i.e. adds publishedAt date and set published to true
-Check if the blogId exists (must have isDeleted false). If it doesn't, return an HTTP status 404 with a response body like this
-Return an HTTP status 200 if updated successfully with a body like this
-Also make sure in the response you return the updated blog document.
-
-## DELETE /blogs/:blogId===>
-Check if the blogId exists( and is not deleted). If it does, mark it deleted and return an HTTP status 200 without any response body.
-If the blog document doesn't exist then return an HTTP status of 404 with a body like this
-DELETE /blogs?queryParams
-Delete blog documents by category, authorid, tag name, subcategory name, unpublished
-If the blog document doesn't exist then return an HTTP status of 404 with a body like this
-
-
-
-# Phase II
-=======================
-
-## Add authentication and authroisation feature
-
-## POST /login
-Allow an author to login with their email and password. On a successful login attempt return a JWT token contatining the authorId in response body like this
-If the credentials are incorrect return a suitable error message with a valid HTTP status code
-**Authentication**
-Add an authorisation implementation for the JWT token that validates the token before every protected endpoint is called. If the validation fails, return a suitable error message with a corresponding HTTP status code
-Protected routes are create a blog, edit a blog, get the list of blogs, delete a blog(s)
-Set the token, once validated, in the request - x-api-key
-Use a middleware for authentication purpose.
-**Authorisation**
-Make sure that only the owner of the blogs is able to edit or delete the blog.
-In case of unauthorized access return an appropirate error message.
-
-## Testing (Self-evaluation During Development)
-To test these apis create a new collection in Postman named Project 1 Blogging
-Each api should have a new request in this collection
-Each request in the collection should be rightly named. Eg Create author, Create blog, Get blogs etc
-Each member of each team should have their tests in running state
-Refer below sample
-
-A Postman collection and request sample
-
-Response
-Successful Response structure
+1. Clone the repository:
+```bash
+git clone https://github.com/Dipesh-J/Project-Blogging-Site.git
+cd Project-Blogging-Site
 ```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Set up environment variables (optional):
+   - For backend: Set `MONGODB_URI` and `PORT`
+   - For frontend: Set `VITE_API_URL` for production
+
+### Running Locally
+
+**Start the backend server:**
+```bash
+npm run dev:backend
+```
+The API will be available at `http://localhost:3000/api`
+
+**Start the frontend development server:**
+```bash
+npm run dev:frontend
+```
+The frontend will be available at `http://localhost:5173`
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+## 📚 API Endpoints
+
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/authors` | Register a new author |
+| POST | `/api/login` | Login and get JWT token |
+
+### Blogs
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/blogs` | Get all published blogs (with optional filters) |
+| POST | `/api/blogs` | Create a new blog (auth required) |
+| PUT | `/api/blogs/:blogId` | Update a blog (auth + owner only) |
+| DELETE | `/api/blogs/:blogId` | Delete a blog (auth + owner only) |
+| DELETE | `/api/blogs` | Delete blogs by query (auth required) |
+
+### Query Parameters for GET /api/blogs
+- `authorId` - Filter by author
+- `category` - Filter by category
+- `tags` - Filter by tag
+- `subcategory` - Filter by subcategory
+
+## 🎨 Design System
+
+The frontend uses a custom design token system with:
+- **Primary Color**: `#735F32` (Olive Gold)
+- **Primary Variant**: `#C69749` (Warm Gold)
+- **Background**: `#000000` (Black)
+- **Surface**: `#282A3A` (Dark Gray)
+- **Font**: Poppins
+
+## 📱 Pages
+
+- **Home** (`/`) - Landing page with hero section
+- **Login** (`/login`) - User authentication
+- **Register** (`/register`) - New user registration
+- **Blogs** (`/blogs`) - List all published blogs with filtering
+- **Blog Detail** (`/blogs/:id`) - View a single blog
+- **Create Blog** (`/blogs/create`) - Create new blog (auth required)
+- **Edit Blog** (`/blogs/:id/edit`) - Edit existing blog (auth required)
+- **Dashboard** (`/dashboard`) - Manage your blogs (auth required)
+
+## 🧩 Reusable Components
+
+The frontend includes a comprehensive component library:
+- Button, Input, Textarea, Select
+- Card, Tag, Modal
+- Loader, PageLoader, Skeleton
+- APIError, EmptyState
+- SectionHeader, Navbar, Footer
+
+## 🚀 Deployment
+
+### Frontend (Vercel/Netlify)
+1. Build the frontend: `npm run build --workspace=frontend`
+2. Deploy the `frontend/dist` folder
+3. Set `VITE_API_URL` environment variable to your backend URL
+
+### Backend (Render/Railway)
+1. Deploy the `backend` folder
+2. Set environment variables:
+   - `MONGODB_URI` - Your MongoDB connection string
+   - `PORT` - Port number (optional)
+   - `FRONTEND_URL` - Your frontend URL for CORS
+
+## 📝 Author Model
+
+```javascript
 {
-  status: true,
-  data: {
-
-  }
+  fname: String,      // Required
+  lname: String,      // Required
+  title: String,      // Required, enum: ["Mr", "Mrs", "Miss"]
+  email: String,      // Required, unique, valid email
+  password: String    // Required, 8-16 chars with special char
 }
 ```
 
-Error Response structure
-```
+## 📝 Blog Model
+
+```javascript
 {
-  status: false,
-  msg: ""
+  title: String,           // Required
+  body: String,            // Required
+  authorId: ObjectId,      // Required, refs Author
+  tags: [String],
+  category: String,        // Required
+  subcategory: [String],
+  isDeleted: Boolean,      // Default: false
+  deletedAt: String,
+  isPublished: Boolean,    // Default: false
+  publishedAt: String
 }
 ```
 
-Collections
+## 📄 License
 
-## Blogs
-```
-{
-  "title": "How to win friends",
-  "body": "Blog body",
-  "tags": ["Book", "Friends", "Self help"],
-  "category": "Book",
-  "subcategory": ["Non fiction", "Self Help"],
-  "published": false,
-  "publishedAt": "", // if published is true publishedAt will have a date 2021-09-17T04:25:07.803Z
-  "deleted": false,
-  "deletedAt": "", // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
-  "createdAt": "2021-09-17T04:25:07.803Z",
-  "updatedAt": "2021-09-17T04:25:07.803Z",
-}
-```
+ISC
 
-Successful Login Response structure
-```
-{
-  status: true,
-  data: {
-   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjYyZmUzYmUzMzY2ZmFkNDZjY2Q1MzI3ZiIsImlhdCI6MTY2MDgzMDA4MywiZXhwIjoxNjYwODY2MDgzfQ.mSo-TLyRlGhMNcy4ftEvvIlCHlyEqpaFZc-iBth4lfg"
+## 👤 Author
 
-  }
-}
-```
-
-Refer https://jsonplaceholder.typicode.com/guide/ for some fake blogs data.
-Note: Create a group database and use the same database in connection string by replacing `groupXDatabase
+Dipesh Joshi
