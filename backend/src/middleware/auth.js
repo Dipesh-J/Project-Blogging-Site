@@ -40,7 +40,7 @@ const authorisation = async (req,res,next) => {
 
  // validation of ObjectId
   if(!isValidObjectId(req.params.blogId)){
- return res.status(400).send({status: false, messageg:"please use valid ObjectId!!"})}
+ return res.status(400).send({status: false, message:"please use valid ObjectId!!"})}
  
   let findBlogById= await blogModel.findById({_id:req.params.blogId})
 
