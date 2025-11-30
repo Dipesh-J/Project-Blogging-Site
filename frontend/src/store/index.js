@@ -4,14 +4,13 @@ import { persist } from 'zustand/middleware';
 // Auth store
 export const useAuthStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       token: null,
       user: null,
       isAuthenticated: false,
 
       // Set token and update authentication state
       setToken: (token) => {
-        localStorage.setItem('token', token);
         set({ token, isAuthenticated: true });
       },
 
@@ -22,15 +21,14 @@ export const useAuthStore = create(
 
       // Clear authentication
       logout: () => {
-        localStorage.removeItem('token');
         set({ token: null, user: null, isAuthenticated: false });
       },
 
       // Check if user is authenticated
       checkAuth: () => {
-        const token = localStorage.getItem('token');
+        const { token } = get();
         if (token) {
-          set({ token, isAuthenticated: true });
+          set({ isAuthenticated: true });
           return true;
         }
         return false;
